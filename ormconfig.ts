@@ -7,7 +7,7 @@ import { UserSubscriber } from './src/entity-subscribers/user-subscriber';
 import { SnakeNamingStrategy } from './src/snake-naming.strategy';
 
 dotenv.config();
-
+// https://github.com/supabase/supabase/issues/19394
 export const dataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
