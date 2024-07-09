@@ -28,7 +28,7 @@ import { supportedLanguageCount } from '../constants';
 import { type Constructor } from '../types';
 import { ApiEnumProperty, ApiUUIDProperty } from './property.decorators';
 import {
-  PhoneNumberSerializer,
+  //   PhoneNumberSerializer,
   ToArray,
   ToBoolean,
   ToLowerCase,
@@ -412,7 +412,7 @@ export function EmailFieldOptional(
 export function PhoneField(
   options: Omit<ApiPropertyOptions, 'type'> & IFieldOptions = {},
 ): PropertyDecorator {
-  const decorators = [IsPhoneNumber(), PhoneNumberSerializer()];
+  const decorators = [IsPhoneNumber()];
 
   if (options.nullable) {
     decorators.push(IsNullable());

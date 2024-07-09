@@ -6,7 +6,6 @@ import {
 } from 'typeorm';
 
 import { LanguageCode } from '../constants';
-import { type Constructor } from '../types';
 import {
   type AbstractDto,
   type AbstractTranslationDto,
@@ -25,7 +24,7 @@ export abstract class AbstractEntity<
   O = never,
 > {
   @PrimaryGeneratedColumn('uuid')
-  id!: Uuid;
+  id!: string & { _uuidBrand: undefined };
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -39,10 +38,9 @@ export abstract class AbstractEntity<
 
   translations?: AbstractTranslationEntity[];
 
-  private dtoClass?: Constructor<DTO, [AbstractEntity, O?]>;
-
   toDto(options?: O): DTO {
-    const dtoClass = this.dtoClass;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+    const dtoClass = Object.getPrototypeOf(this).dtoClass;
 
     if (!dtoClass) {
       throw new Error(
@@ -50,6 +48,7 @@ export abstract class AbstractEntity<
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     return new dtoClass(this, options);
   }
 }
